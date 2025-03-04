@@ -245,6 +245,14 @@
             <div id="file-upload-container">
                 <input type="file" id="excel-file" accept=".xlsx, .xls">
                 <button id="upload-button">Cargar Lista de Regalos</button>
+
+                <h3>Añadir Nuevo Regalo</h3>
+<form id="new-gift-form">
+    <input type="text" id="new-gift-name" placeholder="Nombre del Regalo" required>
+    <input type="text" id="new-gift-description" placeholder="Descripción" required>
+    <input type="text" id="new-gift-price" placeholder="Precio" required>
+    <button type="submit">Añadir</button>
+</form>
             </div>
             
             <h3>Registro de Regalos</h3>
@@ -499,6 +507,35 @@ function deleteGift(giftId) {
                 alert("Por favor, selecciona un archivo Excel.");
             }
         });
+
+        const newGiftForm = document.getElementById('new-gift-form');
+newGiftForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    
+    const newGiftName = document.getElementById('new-gift-name').value.trim();
+    const newGiftDescription = document.getElementById('new-gift-description').value.trim();
+    const newGiftPrice = document.getElementById('new-gift-price').value.trim();
+    
+    if (newGiftName && newGiftDescription && newGiftPrice) {
+        const newGift = {
+            id: giftData.length + 1,
+            name: newGiftName,
+            description: newGiftDescription,
+            price: newGiftPrice,
+            reserved: false,
+            reservedBy: ""
+        };
+        
+        giftData.push(newGift);
+        renderGiftList();
+        updateGiftsTable();
+        
+        // Clear the form
+        newGiftForm.reset();
+    } else {
+        alert("Por favor, completa todos los campos.");
+    }
+});
 
         // Inicializar la aplicación
         renderGiftList();
