@@ -422,16 +422,18 @@
         ];
 
         // Guardar los datos en Firebase
-        function saveGiftData(giftData) {
-          const giftsRef = ref(database, 'gifts');
-          set(giftsRef, giftData)
-            .then(() => {
-              console.log("Datos guardados exitosamente en Firebase");
-            })
-            .catch((error) => {
-              console.error("Error al guardar los datos en Firebase:", error);
-            });
-        }
+        // Guardar los datos en Firebase
+function saveGiftData(giftData) {
+    const giftsRef = ref(database, 'gifts');
+    set(giftsRef, giftData)
+        .then(() => {
+            console.log("Datos guardados exitosamente en Firebase");
+        })
+        .catch((error) => {
+            console.error("Error al guardar los datos en Firebase:", error);
+        });
+}
+
 
         // Cargar los datos desde Firebase
         function loadGiftData() {
