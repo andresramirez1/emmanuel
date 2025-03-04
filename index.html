@@ -278,16 +278,35 @@
     <script>
         // Datos de muestra (simulando carga desde Excel)
         const giftData = [
-            { id: 1, name: "Cuna", description: "Cuna de madera para bebé", price: "$300", reserved: false, reservedBy: "" },
-            { id: 2, name: "Cochecito", description: "Cochecito plegable", price: "$250", reserved: false, reservedBy: "" },
-            { id: 3, name: "Ropa de bebé", description: "Set de ropa para recién nacido", price: "$100", reserved: false, reservedBy: "" },
-            { id: 4, name: "Bañera", description: "Bañera con soporte", price: "$80", reserved: false, reservedBy: "" },
-            { id: 5, name: "Silla para comer", description: "Silla alta para bebé", price: "$120", reserved: false, reservedBy: "" },
-            { id: 6, name: "Pañalera", description: "Bolso pañalera con cambiador", price: "$70", reserved: false, reservedBy: "" },
-            { id: 7, name: "Monitor de bebé", description: "Monitor con cámara y audio", price: "$150", reserved: false, reservedBy: "" },
-            { id: 8, name: "Moisés", description: "Moisés portátil", price: "$180", reserved: false, reservedBy: "" },
-            { id: 9, name: "Móvil musical", description: "Móvil con melodías para cuna", price: "$60", reserved: false, reservedBy: "" },
-            { id: 10, name: "Cambiador", description: "Cambiador con cajones", price: "$200", reserved: false, reservedBy: "" }
+            { id: 1, name: "kit de aseo", description: "kit de aseo (cepillo de pelo, cortauñas etc)", price: "", reserved: false, reservedBy: "" },
+    { id: 2, name: "Cojin de lactancia", description: "Cojin de lactancia", price: "", reserved: false, reservedBy: "" },
+    { id: 3, name: "Baberos + Pañales Etapa 1", description: "Baberos + Pañales Etapa 1", price: "", reserved: false, reservedBy: "" },
+    { id: 4, name: "Esterilizador", description: "Esterilizador", price: "", reserved: false, reservedBy: "" },
+    { id: 5, name: "Olla esmaltada", description: "Olla esmaltada", price: "", reserved: false, reservedBy: "" },
+    { id: 6, name: "Mamelucos 1-3 meses", description: "Mamelucos 1-3 meses", price: "", reserved: false, reservedBy: "" },
+    { id: 7, name: "Conjunto 1-3 meses", description: "Conjunto (sudadera y camiseticas) 1-3 meses", price: "", reserved: false, reservedBy: "" },
+    { id: 8, name: "Sacos 1-3 meses", description: "Sacos 1-3 meses", price: "", reserved: false, reservedBy: "" },
+    { id: 9, name: "Pijamas 3-6 meses", description: "Pijamas 3-6 meses", price: "", reserved: false, reservedBy: "" },
+    { id: 10, name: "Sacos 3-6 meses", description: "Sacos 3-6 meses", price: "", reserved: false, reservedBy: "" },
+    { id: 11, name: "Medias + Crema anti pañalitis", description: "Medias + Crema anti pañalitis", price: "", reserved: false, reservedBy: "" },
+    { id: 12, name: "Toallas", description: "Toallas", price: "", reserved: false, reservedBy: "" },
+    { id: 13, name: "Jabón de baño + Pañales etapa 2", description: "Jabón de baño + Pañales etapa 2", price: "", reserved: false, reservedBy: "" },
+    { id: 14, name: "Mamelucos de 6 a 9", description: "Mamelucos de 6 a 9", price: "", reserved: false, reservedBy: "" },
+    { id: 15, name: "Pañales etapa 2 + Pañitos húmedos", description: "Pañales etapa 2 + Pañitos húmedos", price: "", reserved: false, reservedBy: "" },
+    { id: 16, name: "Pañales Etapa 3 + Pañitos húmedos", description: "Pañales Etapa 3 + Pañitos húmedos", price: "", reserved: false, reservedBy: "" },
+    { id: 17, name: "Crema Almipro + Pañitos húmedos", description: "Crema Almipro + Pañitos húmedos", price: "", reserved: false, reservedBy: "" },
+    { id: 18, name: "Plástico para cambio de pañales", description: "Plástico para cambio de pañales", price: "", reserved: false, reservedBy: "" },
+    { id: 19, name: "Cobija", description: "Cobija", price: "", reserved: false, reservedBy: "" },
+    { id: 20, name: "Sábanas para cuna 1.20m", description: "Sábanas para cuna 1.20m", price: "", reserved: false, reservedBy: "" },
+    { id: 21, name: "Mosquitero + Pañitos húmedos", description: "Mosquitero + Pañitos húmedos", price: "", reserved: false, reservedBy: "" },
+    { id: 22, name: "Salida de baño 6 a 9m", description: "Salida de baño 6 a 9m", price: "", reserved: false, reservedBy: "" },
+    { id: 23, name: "Móvil decorativo", description: "Móvil decorativo", price: "", reserved: false, reservedBy: "" },
+    { id: 24, name: "Pijamas 6 a 9 meses", description: "Pijamas 6 a 9 meses", price: "", reserved: false, reservedBy: "" },
+    { id: 25, name: "Pijamas de 1 a 3 meses", description: "Pijamas de 1 a 3 meses", price: "", reserved: false, reservedBy: "" },
+    { id: 26, name: "Aceite bebé + Pañales etapa 2", description: "Aceite bebé + Pañales etapa 2", price: "", reserved: false, reservedBy: "" },
+    { id: 27, name: "Kit de baño", description: "Kit de baño (Shampoo, crema masajes, jabón)", price: "", reserved: false, reservedBy: "" },
+    { id: 28, name: "Tapete didáctico foami", description: "Tapete didáctico foami", price: "", reserved: false, reservedBy: "" },
+    { id: 29, name: "Silla vibradora, mecedora", description: "Silla vibradora, mecedora", price: "", reserved: false, reservedBy: "" }
         ];
 
         // Registro de usuarios
