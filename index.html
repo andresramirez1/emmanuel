@@ -197,12 +197,14 @@
         </header>
 
         <div id="login-section" class="login-form">
-            <h2>Acceso para Invitados</h2>
-            <p>Ingresa tu correo electrónico para ver la lista de regalos:</p>
-            <input type="email" id="email-input" placeholder="tucorreo@ejemplo.com" required>
-            <button id="login-button">Ingresar</button>
-            <p id="login-error" class="error-message"></p>
-        </div>
+    <h2>Acceso para Invitados</h2>
+    <p>Ingresa tu nombre completo:</p>
+    <input type="text" id="full-name-input" placeholder="Tu Nombre Completo" required>
+    <p>Ingresa tu correo electrónico para ver la lista de regalos:</p>
+    <input type="email" id="email-input" placeholder="tucorreo@ejemplo.com" required>
+    <button id="login-button">Ingresar</button>
+    <p id="login-error" class="error-message"></p>
+</div>
 
         <div id="gift-list-section" class="gift-list">
             <div class="user-info">
@@ -239,19 +241,20 @@
             
             <h3>Registro de Regalos</h3>
             <table id="gifts-table">
-                <thead>
-                    <tr>
-                        <th>Regalo</th>
-                        <th>Descripción</th>
-                        <th>Precio</th>
-                        <th>Estado</th>
-                        <th>Reservado por</th>
-                    </tr>
-                </thead>
-                <tbody id="gifts-table-body">
-                    <!-- Datos de la tabla cargados dinámicamente -->
-                </tbody>
-            </table>
+    <thead>
+        <tr>
+            <th>Regalo</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Estado</th>
+            <th>Reservado por</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody id="gifts-table-body">
+        <!-- Datos de la tabla cargados dinámicamente -->
+    </tbody>
+</table>
         </div>
     </div>
 
@@ -303,31 +306,37 @@
         }
 
         // Iniciar sesión
-        loginButton.addEventListener('click', () => {
-            const email = emailInput.value.trim();
-            
-            if (!validateEmail(email)) {
-                loginError.textContent = "Por favor, introduce un correo electrónico válido.";
-                return;
-            }
-            
-            loginError.textContent = "";
-            currentUser = email;
-            
-            // Verificar si el usuario ya existe, si no, agregarlo
-            if (!users.includes(email)) {
-                users.push(email);
-            }
-            
-            userEmailSpan.textContent = email;
-            confirmationEmailSpan.textContent = email;
-            
-            loginSection.style.display = 'none';
-            giftListSection.style.display = 'block';
-            
-            // Cargar lista de regalos
-            renderGiftList();
-        });
+loginButton.addEventListener('click', () => {
+    const fullName = document.getElementById('full-name-input').value.trim();
+    const email = emailInput.value.trim();
+    
+    if (!fullName) {
+        loginError.textContent = "Por favor, introduce tu nombre completo.";
+        return;
+    }
+
+    if (!validateEmail(email)) {
+        loginError.textContent = "Por favor, introduce un correo electrónico válido.";
+        return;
+    }
+
+    loginError.textContent = "";
+    currentUser = { fullName, email };
+
+    // Verificar si el usuario ya existe, si no, agregarlo
+    if (!users.some(user => user.email === email)) {
+        users.push(currentUser);
+    }
+
+    userEmailSpan.textContent = email;
+    confirmationEmailSpan.textContent = email;
+
+    loginSection.style.display = 'none';
+    giftListSection.style.display = 'block';
+
+    // Cargar lista de regalos
+    renderGiftList();
+});
 
         // Renderizar la lista de regalos
         function renderGiftList() {
@@ -425,24 +434,49 @@
             }
         });
 
-        // Actualizar tabla de regalos
-        function updateGiftsTable() {
-            giftsTableBody.innerHTML = '';
-            
-            giftData.forEach(gift => {
-                const row = document.createElement('tr');
-                
-                row.innerHTML = `
-                    <td>${gift.name}</td>
-                    <td>${gift.description}</td>
-                    <td>${gift.price}</td>
-                    <td><span class="gift-status ${gift.reserved ? 'status-reserved' : 'status-available'}">${gift.reserved ? 'Reservado' : 'Disponible'}</span></td>
-                    <td>${gift.reservedBy || '-'}</td>
-                `;
-                
-                giftsTableBody.appendChild(row);
-            });
-        }
+      // Actualizar tabla de regalos
+function updateGiftsTable() {
+    giftsTableBody.innerHTML = '';
+
+    giftData.forEach(gift => {
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+            <td contenteditable="true">${gift.name}</td>
+            <td contenteditable="true">${gift.description}</td>
+            <td contenteditable="true">${gift.price}</td>
+            <td><span class="gift-status ${gift.reserved ? 'status-reserved' : 'status-available'}">${gift.reserved ? 'Reservado' : 'Disponible'}</span></td>
+            <td>${gift.reservedBy || '-'}</td>
+            <td>
+                <button onclick="editGift(${gift.id})">Guardar</button>
+                <button onclick="deleteGift(${gift.id})">Eliminar</button>
+            </td>
+        `;
+
+        giftsTableBody.appendChild(row);
+    });
+}
+
+// Editar un regalo
+function editGift(giftId) {
+    const row = document.querySelector(`tr[data-id="${giftId}"]`);
+    const name = row.cells[0].textContent;
+    const description = row.cells[1].textContent;
+    const price = row.cells[2].textContent;
+
+    const gift = giftData.find(g => g.id === giftId);
+    if (gift) {
+        gift.name = name;
+        gift.description = description;
+        gift.price = price;
+    }
+}
+
+// Eliminar un regalo
+function deleteGift(giftId) {
+    giftData = giftData.filter(g => g.id !== giftId);
+    updateGiftsTable();
+}
 
         // Cargar archivo Excel (simulado para este ejemplo)
         uploadButton.addEventListener('click', () => {
