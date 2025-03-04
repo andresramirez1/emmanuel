@@ -358,6 +358,10 @@ loginButton.addEventListener('click', () => {
     loginError.textContent = "";
     currentUser = { fullName, email };
 
+    // Store the user's name and email in local storage
+    localStorage.setItem('fullName', fullName);
+    localStorage.setItem('email', email);
+    
     // Verificar si el usuario ya existe, si no, agregarlo
     if (!users.some(user => user.email === email)) {
         users.push(currentUser);
@@ -404,22 +408,24 @@ loginButton.addEventListener('click', () => {
         }
 
         // Seleccionar un regalo
-        function selectGift(giftId) {
-            const gift = giftData.find(g => g.id === giftId);
-            
-            if (gift && !gift.reserved) {
-                gift.reserved = true;
-                gift.reservedBy = currentUser;
-                
-                selectedGiftSpan.textContent = gift.name;
-                
-                giftListSection.style.display = 'none';
-                thankYouSection.style.display = 'block';
-                
-                // Actualizar tabla de administrador
-                updateGiftsTable();
-            }
-        }
+       function selectGift(giftId) {
+    const gift = giftData.find(g => g.id === giftId);
+    
+    if (gift && !gift.reserved) {
+        gift.reserved = true;
+        // Retrieve the full name from local storage
+        const reservedBy = localStorage.getItem('fullName');
+        gift.reservedBy = reservedBy;
+        
+        selectedGiftSpan.textContent = gift.name;
+        
+        giftListSection.style.display = 'none';
+        thankYouSection.style.display = 'block';
+        
+        // Actualizar tabla de administrador
+        updateGiftsTable();
+    }
+}
 
         // Volver a la lista de regalos
         backToGiftsButton.addEventListener('click', () => {
