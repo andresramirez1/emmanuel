@@ -198,6 +198,29 @@
     </style>
 </head>
 <body>
+    <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyA1SsEgO_SwF704ZTLTiAaiQoi-tboMHIw",
+    authDomain: "emmanuel-b0774.firebaseapp.com",
+    projectId: "emmanuel-b0774",
+    storageBucket: "emmanuel-b0774.firebasestorage.app",
+    messagingSenderId: "277472142298",
+    appId: "1:277472142298:web:ab356ea420c2217b1696e3",
+    measurementId: "G-BXDWSZ9TJJ"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
     <div class="container">
         <header>
             <img src="/api/placeholder/150/150" alt="Osito de Peluche" class="teddy-bear">
@@ -402,24 +425,69 @@
             });
         }
 
-        function selectGift(giftId) {
-            const gift = giftData.find(g => g.id === giftId);
-            
-            if (gift && !gift.reserved) {
-                gift.reserved = true;
-                const reservedBy = localStorage.getItem('fullName');
-                gift.reservedBy = reservedBy;
-                
-                selectedGiftSpan.textContent = gift.name;
-                
-                giftListSection.style.display = 'none';
-                thankYouSection.style.display = 'block';
-                
-                updateGiftsTable();
-                localStorage.setItem('giftData', JSON.stringify(giftData));
-            }
+        function saveGiftData(giftData) {
+  const giftsRef = database.ref('gifts');
+  giftsRef.set(giftData);  // Guardamos la lista de regalos en Firebase
+}
+
+
+      function selectGift(giftId) {
+    const gift = giftData.find(g => g.id === giftId);
+    
+    if (gift && !gift.reserved) {
+        gift.reserved = true;
+        const reservedBy = localStorage.getItem('fullName');
+        gift.reservedBy = reservedBy;
+
+        selectedGiftSpan.textContent = gift.name;
+
+        giftListSection.style.display = 'none';
+        thankYouSection.style.display = 'block';
+
+        saveGiftData(giftData);  // Guardamos la lista actualizada en Firebase
+    }
+}
+function loadGiftData() {
+    const giftsRef = database.ref('gifts');
+    giftsRef.on('value', (snapshot) => {
+        const data = snapshot.val();
+        renderGiftList(data);  // Llamamos a la función para renderizar la lista con los datos cargados
+    });
+}
+
+function renderGiftList(giftData) {
+    giftGrid.innerHTML = '';  // Limpiamos la lista de regalos antes de mostrar la nueva
+
+    giftData.forEach(gift => {
+        const giftCard = document.createElement('div');
+        giftCard.className = 'gift-card';
+        if (gift.reserved) {
+            giftCard.classList.add('reserved');
         }
 
+        giftCard.innerHTML = `
+            <div class="gift-name">${gift.name}</div>
+            <div class="gift-description">${gift.description}</div>
+            <div class="gift-price">${gift.price}</div>
+            <button class="select-gift" data-id="${gift.id}" ${gift.reserved ? 'disabled' : ''}>
+                ${gift.reserved ? 'Reservado' : 'Seleccionar'}
+            </button>
+        `;
+        
+        giftGrid.appendChild(giftCard);
+
+        if (!gift.reserved) {
+            const selectButton = giftCard.querySelector('.select-gift');
+            selectButton.addEventListener('click', () => selectGift(gift.id));
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadGiftData();  // Cargar los datos de Firebase cuando la página se carga
+});
+
+        
         backToGiftsButton.addEventListener('click', () => {
             thankYouSection.style.display = 'none';
             giftListSection.style.display = 'block';
