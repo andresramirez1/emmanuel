@@ -79,6 +79,7 @@
             <p class="welcome-message">¡Estamos esperando a nuestro bebé con mucha alegría! <br>Gracias por ser parte de este momento tan especial.</p>
         </header>
 
+        <!-- Sección de Regalos para los Invitados -->
         <div id="gift-list-section" class="gift-list">
             <h2>Elige un regalo para el bebé</h2>
             <p>Selecciona el regalo que deseas obsequiar:</p>
@@ -86,12 +87,40 @@
                 <!-- Los regalos se cargarán dinámicamente aquí -->
             </div>
         </div>
+
+        <!-- Sección de Administración -->
+        <div id="admin-panel" class="admin-panel" style="display:none;">
+            <h2>Panel de Administración</h2>
+            <h3>Añadir Nuevo Regalo</h3>
+            <form id="new-gift-form">
+                <input type="text" id="new-gift-name" placeholder="Nombre del Regalo" required>
+                <input type="text" id="new-gift-description" placeholder="Descripción" required>
+                <input type="text" id="new-gift-price" placeholder="Precio" required>
+                <button type="submit">Añadir</button>
+            </form>
+
+            <h3>Lista de Regalos</h3>
+            <table id="gifts-table">
+                <thead>
+                    <tr>
+                        <th>Regalo</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="gifts-table-body">
+                    <!-- Los regalos se cargan dinámicamente aquí -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
         import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
+        // Configuración de Firebase
         const firebaseConfig = {
           apiKey: "AIzaSyA1SsEgO_SwF704ZTLTiAaiQoi-tboMHIw",
           authDomain: "emmanuel-b0774.firebaseapp.com",
@@ -102,43 +131,18 @@
           measurementId: "G-BXDWSZ9TJJ"
         };
 
+        // Inicializa Firebase
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app); // Inicializa la base de datos
 
+        // Datos de ejemplo (solo 3 para comenzar)
         const giftData = [
-    { id: 1, name: "kit de aseo", description: "kit de aseo (cepillo de pelo, cortauñas etc)", price: "", reserved: false, reservedBy: "" },
-    { id: 2, name: "Cojin de lactancia", description: "Cojin de lactancia", price: "", reserved: false, reservedBy: "" },
-    { id: 3, name: "Baberos + Pañales Etapa 1", description: "Baberos + Pañales Etapa 1", price: "", reserved: false, reservedBy: "" },
-    { id: 4, name: "Esterilizador", description: "Esterilizador", price: "", reserved: false, reservedBy: "" },
-    { id: 5, name: "Olla esmaltada", description: "Olla esmaltada", price: "", reserved: false, reservedBy: "" },
-    { id: 6, name: "Mamelucos 1-3 meses", description: "Mamelucos 1-3 meses", price: "", reserved: false, reservedBy: "" },
-    { id: 7, name: "Conjunto 1-3 meses", description: "Conjunto (sudadera y camiseticas) 1-3 meses", price: "", reserved: false, reservedBy: "" },
-    { id: 8, name: "Sacos 1-3 meses", description: "Sacos 1-3 meses", price: "", reserved: false, reservedBy: "" },
-    { id: 9, name: "Pijamas 3-6 meses", description: "Pijamas 3-6 meses", price: "", reserved: false, reservedBy: "" },
-    { id: 10, name: "Sacos 3-6 meses", description: "Sacos 3-6 meses", price: "", reserved: false, reservedBy: "" },
-    { id: 11, name: "Medias + Crema anti pañalitis", description: "Medias + Crema anti pañalitis", price: "", reserved: false, reservedBy: "" },
-    { id: 12, name: "Toallas", description: "Toallas", price: "", reserved: false, reservedBy: "" },
-    { id: 13, name: "Jabón de baño + Pañales etapa 2", description: "Jabón de baño + Pañales etapa 2", price: "", reserved: false, reservedBy: "" },
-    { id: 14, name: "Mamelucos de 6 a 9", description: "Mamelucos de 6 a 9", price: "", reserved: false, reservedBy: "" },
-    { id: 15, name: "Pañales etapa 2 + Pañitos húmedos", description: "Pañales etapa 2 + Pañitos húmedos", price: "", reserved: false, reservedBy: "" },
-    { id: 16, name: "Pañales Etapa 3 + Pañitos húmedos", description: "Pañales Etapa 3 + Pañitos húmedos", price: "", reserved: false, reservedBy: "" },
-    { id: 17, name: "Crema Almipro + Pañitos húmedos", description: "Crema Almipro + Pañitos húmedos", price: "", reserved: false, reservedBy: "" },
-    { id: 18, name: "Plástico para cambio de pañales", description: "Plástico para cambio de pañales", price: "", reserved: false, reservedBy: "" },
-    { id: 19, name: "Cobija", description: "Cobija", price: "", reserved: false, reservedBy: "" },
-    { id: 20, name: "Sábanas para cuna 1.20m", description: "Sábanas para cuna 1.20m", price: "", reserved: false, reservedBy: "" },
-    { id: 21, name: "Mosquitero + Pañitos húmedos", description: "Mosquitero + Pañitos húmedos", price: "", reserved: false, reservedBy: "" },
-    { id: 22, name: "Salida de baño 6 a 9m", description: "Salida de baño 6 a 9m", price: "", reserved: false, reservedBy: "" },
-    { id: 23, name: "Móvil decorativo", description: "Móvil decorativo", price: "", reserved: false, reservedBy: "" },
-    { id: 24, name: "Pijamas 6 a 9 meses", description: "Pijamas 6 a 9 meses", price: "", reserved: false, reservedBy: "" },
-    { id: 25, name: "Pijamas de 1 a 3 meses", description: "Pijamas de 1 a 3 meses", price: "", reserved: false, reservedBy: "" },
-    { id: 26, name: "Aceite bebé + Pañales etapa 2", description: "Aceite bebé + Pañales etapa 2", price: "", reserved: false, reservedBy: "" },
-    { id: 27, name: "Kit de baño", description: "Kit de baño (Shampoo, crema masajes, jabón)", price: "", reserved: false, reservedBy: "" },
-    { id: 28, name: "Tapete didáctico foami", description: "Tapete didáctico foami", price: "", reserved: false, reservedBy: "" },
-    { id: 29, name: "Silla vibradora, mecedora", description: "Silla vibradora, mecedora", price: "", reserved: false, reservedBy: "" },
-    { id: 30, name: "Coche", description: "Coche para Bebé", price: "", reserved: false, reservedBy: "" }
+          { id: 1, name: "kit de aseo", description: "kit de aseo (cepillo de pelo, cortauñas etc)", price: "10 USD", reserved: false, reservedBy: "" },
+          { id: 2, name: "Cojin de lactancia", description: "Cojin de lactancia", price: "20 USD", reserved: false, reservedBy: "" },
+          { id: 3, name: "Baberos + Pañales Etapa 1", description: "Baberos + Pañales Etapa 1", price: "15 USD", reserved: false, reservedBy: "" }
         ];
 
-        // Función para guardar los datos en Firebase
+        // Guardar los datos en Firebase
         function saveGiftData(giftData) {
           const giftsRef = ref(database, 'gifts');
           set(giftsRef, giftData)
@@ -150,7 +154,7 @@
             });
         }
 
-        // Función para cargar los datos desde Firebase
+        // Cargar los datos desde Firebase
         function loadGiftData() {
           const giftsRef = ref(database, 'gifts');
           get(giftsRef).then((snapshot) => {
@@ -165,7 +169,7 @@
           });
         }
 
-        // Esta función es la que se llama para renderizar los regalos
+        // Renderizar la lista de regalos
         function renderGiftList(giftData) {
           const giftGrid = document.getElementById('gift-grid');
           giftGrid.innerHTML = ''; // Limpiar la lista de regalos antes de mostrar los nuevos
@@ -195,7 +199,7 @@
           });
         }
 
-        // Función que se ejecuta cuando el usuario selecciona un regalo
+        // Función para seleccionar un regalo
         function selectGift(giftId) {
           const gift = giftData.find(g => g.id === giftId);
 
@@ -210,12 +214,40 @@
           }
         }
 
-        // Cargar los datos desde Firebase al cargar la página
-        document.addEventListener('DOMContentLoaded', () => {
-          loadGiftData();  // Llamar a la función que carga los datos
+        // Función para agregar un nuevo regalo desde el panel de administración
+        const newGiftForm = document.getElementById('new-gift-form');
+        newGiftForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          
+          const newGiftName = document.getElementById('new-gift-name').value.trim();
+          const newGiftDescription = document.getElementById('new-gift-description').value.trim();
+          const newGiftPrice = document.getElementById('new-gift-price').value.trim();
+          
+          if (newGiftName && newGiftDescription && newGiftPrice) {
+            const newGift = {
+              id: giftData.length + 1,
+              name: newGiftName,
+              description: newGiftDescription,
+              price: newGiftPrice,
+              reserved: false,
+              reservedBy: ""
+            };
+            
+            giftData.push(newGift);
+            renderGiftList(giftData);
+            saveGiftData(giftData);  // Guardamos los datos en Firebase
+            newGiftForm.reset();
+          } else {
+            alert("Por favor, completa todos los campos.");
+          }
         });
 
-        // Guardamos los datos de ejemplo en Firebase
+        // Llamada para cargar los regalos al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+          loadGiftData();  // Cargar los datos desde Firebase
+        });
+
+        // Inicializar con los datos de ejemplo en Firebase
         saveGiftData(giftData);
     </script>
 </body>
