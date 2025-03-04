@@ -447,13 +447,21 @@
         saveGiftData(giftData);  // Guardamos la lista actualizada en Firebase
     }
 }
+// Esta función carga los datos de Firebase y los pasa a renderGiftList
 function loadGiftData() {
-    const giftsRef = database.ref('gifts');
-    giftsRef.on('value', (snapshot) => {
-        const data = snapshot.val();
-        renderGiftList(data);  // Llamamos a la función para renderizar la lista con los datos cargados
-    });
+  const giftsRef = ref(database, 'gifts');
+  get(giftsRef).then((snapshot) => {
+    if (snapshot.exists()) {
+      const data = snapshot.val();  // Obtén los datos de la base de datos
+      renderGiftList(data);  // Llama a renderGiftList para mostrar los regalos
+    } else {
+      console.log("No hay datos disponibles en Firebase.");
+    }
+  }).catch((error) => {
+    console.error("Error al cargar los datos de Firebase:", error);
+  });
 }
+
 
 function renderGiftList(giftData) {
     giftGrid.innerHTML = '';  // Limpiamos la lista de regalos antes de mostrar la nueva
