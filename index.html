@@ -4,36 +4,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Regalos Baby Shower</title>
-    <!-- Previous CSS remains unchanged -->
+    <style>
+        /* Estilos omitidos por brevedad */
+    </style>
 </head>
 <body>
-    <!-- Previous HTML structure remains unchanged -->
+    <div class="container">
+        <header>
+            <img src="/api/placeholder/150/150" alt="Osito de Peluche" class="teddy-bear">
+            <h1>Lista de Regalos Baby Shower</h1>
+            <p class="welcome-message">¡Estamos esperando a nuestro bebé con mucha alegría! <br>Gracias por ser parte de este momento tan especial.</p>
+        </header>
+
+        <div id="login-section" class="login-form">
+            <h2>Acceso para Invitados</h2>
+            <p>Ingresa tu nombre completo:</p>
+            <input type="text" id="full-name-input" placeholder="Tu Nombre Completo" required>
+            <p>Ingresa tu correo electrónico para ver la lista de regalos:</p>
+            <input type="email" id="email-input" placeholder="tucorreo@ejemplo.com" required>
+            <button id="login-button">Ingresar</button>
+            <p id="login-error" class="error-message"></p>
+        </div>
+
+        <div id="gift-list-section" class="gift-list">
+            <div class="user-info">
+                <p>Bienvenido, <span id="user-email"></span> | <a href="#" id="logout-link">Cerrar sesión</a></p>
+            </div>
+            <h2>Elige un regalo para el bebé</h2>
+            <p>Selecciona el regalo que deseas obsequiar:</p>
+            <div id="gift-grid" class="gift-grid">
+                <!-- Los regalos se cargarán dinámicamente aquí -->
+            </div>
+        </div>
+
+        <div id="thank-you-section" class="thank-you">
+            <img src="/api/placeholder/150/150" alt="Osito de Peluche" class="teddy-bear">
+            <h2>¡Muchas gracias!</h2>
+            <p>Has seleccionado: <span id="selected-gift"></span></p>
+            <p>Tu generosidad significa mucho para nosotros. Te mantendremos informado sobre la fecha y lugar del Baby Shower mediante el correo <span id="confirmation-email"></span>.</p>
+            <button id="back-to-gifts">Ver más regalos</button>
+            <button id="thank-you-logout">Cerrar sesión</button>
+        </div>
+
+        <div class="admin-section">
+            <a href="#" class="admin-link" id="admin-link">Acceso para administradores</a>
+        </div>
+
+        <div id="admin-panel" class="admin-panel">
+            <h2>Panel de Administración</h2>
+            <p>Carga la lista de regalos desde Excel o visualiza los regalos seleccionados:</p>
+            
+            <div id="file-upload-container">
+                <input type="file" id="excel-file" accept=".xlsx, .xls">
+                <button id="upload-button">Cargar Lista de Regalos</button>
+            </div>
+            
+            <h3>Añadir Nuevo Regalo</h3>
+            <form id="new-gift-form">
+                <input type="text" id="new-gift-name" placeholder="Nombre del Regalo" required>
+                <input type="text" id="new-gift-description" placeholder="Descripción" required>
+                <input type="text" id="new-gift-price" placeholder="Precio" required>
+                <button type="submit">Añadir</button>
+            </form>
+            
+            <h3>Registro de Regalos</h3>
+            <table id="gifts-table">
+                <thead>
+                    <tr>
+                        <th>Regalo</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Estado</th>
+                        <th>Reservado por</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="gifts-table-body">
+                    <!-- Datos de la tabla cargados dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
-        // Modified script to use Local Storage
-
-        // Initialize giftData from Local Storage or use default data
-        let giftData = JSON.parse(localStorage.getItem('giftData')) || [
-            // Your original giftData array here (unchanged)
+        // Datos de muestra (simulando carga desde Excel)
+        const giftData = JSON.parse(localStorage.getItem('giftData')) || [
             { id: 1, name: "kit de aseo", description: "kit de aseo (cepillo de pelo, cortauñas etc)", price: "", reserved: false, reservedBy: "" },
-            // ... rest of the original array
+            { id: 2, name: "Cojin de lactancia", description: "Cojin de lactancia", price: "", reserved: false, reservedBy: "" },
+            { id: 3, name: "Baberos + Pañales Etapa 1", description: "Baberos + Pañales Etapa 1", price: "", reserved: false, reservedBy: "" },
+            /* Más datos omitidos por brevedad */
         ];
 
-        // Initialize users from Local Storage
-        let users = JSON.parse(localStorage.getItem('users')) || [];
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 
-        // Function to save giftData to Local Storage
-        function saveGiftData() {
-            localStorage.setItem('giftData', JSON.stringify(giftData));
+        const loginSection = document.getElementById('login-section');
+        const giftListSection = document.getElementById('gift-list-section');
+        const thankYouSection = document.getElementById('thank-you-section');
+        const adminPanel = document.getElementById('admin-panel');
+        const emailInput = document.getElementById('email-input');
+        const loginButton = document.getElementById('login-button');
+        const userEmailSpan = document.getElementById('user-email');
+        const logoutLink = document.getElementById('logout-link');
+        const giftGrid = document.getElementById('gift-grid');
+        const selectedGiftSpan = document.getElementById('selected-gift');
+        const confirmationEmailSpan = document.getElementById('confirmation-email');
+        const backToGiftsButton = document.getElementById('back-to-gifts');
+        const thankYouLogoutButton = document.getElementById('thank-you-logout');
+        const loginError = document.getElementById('login-error');
+        const adminLink = document.getElementById('admin-link');
+        const fileUploadContainer = document.getElementById('file-upload-container');
+        const excelFileInput = document.getElementById('excel-file');
+        const uploadButton = document.getElementById('upload-button');
+        const giftsTableBody = document.getElementById('gifts-table-body');
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
         }
 
-        // Function to save users to Local Storage
-        function saveUsers() {
-            localStorage.setItem('users', JSON.stringify(users));
-        }
-
-        // Modify login button event listener to use Local Storage
         loginButton.addEventListener('click', () => {
             const fullName = document.getElementById('full-name-input').value.trim();
             const email = emailInput.value.trim();
@@ -51,14 +141,13 @@
             loginError.textContent = "";
             currentUser = { fullName, email };
 
-            // Store the user's name and email in local storage
             localStorage.setItem('fullName', fullName);
             localStorage.setItem('email', email);
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
             
-            // Verificar si el usuario ya existe, si no, agregarlo
             if (!users.some(user => user.email === email)) {
                 users.push(currentUser);
-                saveUsers(); // Save updated users to Local Storage
+                localStorage.setItem('users', JSON.stringify(users));
             }
 
             userEmailSpan.textContent = email;
@@ -67,17 +156,42 @@
             loginSection.style.display = 'none';
             giftListSection.style.display = 'block';
 
-            // Cargar lista de regalos
             renderGiftList();
         });
 
-        // Modify selectGift function to update Local Storage
+        function renderGiftList() {
+            giftGrid.innerHTML = '';
+            
+            giftData.forEach(gift => {
+                const giftCard = document.createElement('div');
+                giftCard.className = 'gift-card';
+                if (gift.reserved) {
+                    giftCard.classList.add('reserved');
+                }
+                
+                giftCard.innerHTML = `
+                    <div class="gift-name">${gift.name}</div>
+                    <div class="gift-description">${gift.description}</div>
+                    <div class="gift-price">${gift.price}</div>
+                    <button class="select-gift" data-id="${gift.id}" ${gift.reserved ? 'disabled' : ''}>
+                        ${gift.reserved ? 'Reservado' : 'Seleccionar'}
+                    </button>
+                `;
+                
+                giftGrid.appendChild(giftCard);
+                
+                if (!gift.reserved) {
+                    const selectButton = giftCard.querySelector('.select-gift');
+                    selectButton.addEventListener('click', () => selectGift(gift.id));
+                }
+            });
+        }
+
         function selectGift(giftId) {
             const gift = giftData.find(g => g.id === giftId);
             
             if (gift && !gift.reserved) {
                 gift.reserved = true;
-                // Retrieve the full name from local storage
                 const reservedBy = localStorage.getItem('fullName');
                 gift.reservedBy = reservedBy;
                 
@@ -86,51 +200,108 @@
                 giftListSection.style.display = 'none';
                 thankYouSection.style.display = 'block';
                 
-                // Save updated gift data to Local Storage
-                saveGiftData();
-                
-                // Actualizar tabla de administrador
                 updateGiftsTable();
+                localStorage.setItem('giftData', JSON.stringify(giftData));
             }
         }
 
-        // Modify editGift function to save to Local Storage
-        function editGift(giftId) {
-            const rows = document.querySelectorAll('#gifts-table-body tr');
-            const row = Array.from(rows).find(r => r.querySelector(`button[onclick="editGift(${giftId})"]`));
+        backToGiftsButton.addEventListener('click', () => {
+            thankYouSection.style.display = 'none';
+            giftListSection.style.display = 'block';
+            renderGiftList();
+        });
+
+        logoutLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            logout();
+        });
+
+        thankYouLogoutButton.addEventListener('click', () => {
+            logout();
+        });
+
+        function logout() {
+            currentUser = null;
+            emailInput.value = '';
+            localStorage.removeItem('currentUser');
+            loginSection.style.display = 'block';
+            giftListSection.style.display = 'none';
+            thankYouSection.style.display = 'none';
+            adminPanel.style.display = 'none';
+        }
+
+        adminLink.addEventListener('click', (e) => {
+            e.preventDefault();
             
+            const isAdmin = prompt("Ingrese la contraseña de administrador:");
+            
+            if (isAdmin === "admin123") {
+                loginSection.style.display = 'none';
+                giftListSection.style.display = 'none';
+                thankYouSection.style.display = 'none';
+                adminPanel.style.display = 'block';
+                fileUploadContainer.style.display = 'block';
+                
+                updateGiftsTable();
+            } else {
+                alert("Contraseña incorrecta.");
+            }
+        });
+
+        function updateGiftsTable() {
+            giftsTableBody.innerHTML = '';
+        
+            giftData.forEach(gift => {
+                const row = document.createElement('tr');
+        
+                row.innerHTML = `
+                    <td contenteditable="true">${gift.name}</td>
+                    <td contenteditable="true">${gift.description}</td>
+                    <td contenteditable="true">${gift.price}</td>
+                    <td><span class="gift-status ${gift.reserved ? 'status-reserved' : 'status-available'}">${gift.reserved ? 'Reservado' : 'Disponible'}</span></td>
+                    <td>${gift.reservedBy || '-'}</td>
+                    <td>
+                        <button onclick="editGift(${gift.id})">Guardar</button>
+                        <button onclick="deleteGift(${gift.id})">Eliminar</button>
+                    </td>
+                `;
+        
+                giftsTableBody.appendChild(row);
+            });
+        }
+
+        function editGift(giftId) {
+            const row = document.querySelector(`tr[data-id="${giftId}"]`);
             const name = row.cells[0].textContent;
             const description = row.cells[1].textContent;
             const price = row.cells[2].textContent;
-
+        
             const gift = giftData.find(g => g.id === giftId);
             if (gift) {
                 gift.name = name;
                 gift.description = description;
                 gift.price = price;
-                
-                // Save updated gift data to Local Storage
-                saveGiftData();
-                
-                // Render the updated list
-                renderGiftList();
-                updateGiftsTable();
+                localStorage.setItem('giftData', JSON.stringify(giftData));
             }
         }
 
-        // Modify deleteGift function to save to Local Storage
         function deleteGift(giftId) {
             giftData = giftData.filter(g => g.id !== giftId);
-            
-            // Save updated gift data to Local Storage
-            saveGiftData();
-            
-            // Re-render the tables
-            renderGiftList();
             updateGiftsTable();
+            localStorage.setItem('giftData', JSON.stringify(giftData));
         }
 
-        // Modify new gift form submission to save to Local Storage
+        uploadButton.addEventListener('click', () => {
+            const file = excelFileInput.files[0];
+            
+            if (file) {
+                alert("La función de carga de Excel requiere implementación adicional con una librería como SheetJS (xlsx). En una aplicación real, este botón cargaría y procesaría tu archivo Excel.");
+            } else {
+                alert("Por favor, selecciona un archivo Excel.");
+            }
+        });
+
+        const newGiftForm = document.getElementById('new-gift-form');
         newGiftForm.addEventListener('submit', (event) => {
             event.preventDefault();
             
@@ -149,57 +320,18 @@
                 };
                 
                 giftData.push(newGift);
-                
-                // Save updated gift data to Local Storage
-                saveGiftData();
-                
                 renderGiftList();
                 updateGiftsTable();
+                localStorage.setItem('giftData', JSON.stringify(giftData));
                 
-                // Clear the form
                 newGiftForm.reset();
             } else {
                 alert("Por favor, completa todos los campos.");
             }
         });
 
-        // Modify logout function to clear Local Storage as needed
-        function logout() {
-            currentUser = null;
-            emailInput.value = '';
-            
-            // Clear specific local storage items
-            localStorage.removeItem('fullName');
-            localStorage.removeItem('email');
-            
-            loginSection.style.display = 'block';
-            giftListSection.style.display = 'none';
-            thankYouSection.style.display = 'none';
-            adminPanel.style.display = 'none';
-        }
-
-        // Initialize the application with data from Local Storage
-        function initializeApp() {
-            // Restore user session if exists
-            const savedEmail = localStorage.getItem('email');
-            const savedFullName = localStorage.getItem('fullName');
-
-            if (savedEmail && savedFullName) {
-                currentUser = { fullName: savedFullName, email: savedEmail };
-                userEmailSpan.textContent = savedEmail;
-                confirmationEmailSpan.textContent = savedEmail;
-
-                loginSection.style.display = 'none';
-                giftListSection.style.display = 'block';
-            }
-
-            // Render gift list and table
-            renderGiftList();
-            updateGiftsTable();
-        }
-
-        // Call initialization when the page loads
-        initializeApp();
+        renderGiftList();
+        updateGiftsTable();
     </script>
 </body>
 </html>
