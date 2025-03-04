@@ -95,9 +95,10 @@
         <table>
             <thead>
                 <tr>
-                    <th>Regalo</th>
+                    <th>ID</th>
                     <th>Descripción</th>
                     <th>Estado</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody id="gift-list"></tbody>
@@ -149,8 +150,9 @@
                 const row = document.createElement("tr");
                 row.innerHTML = `
                     <td>${gift.id}</td>
-                    <td>${gift.description}</td>
+                    <td contenteditable="true" onblur="editGiftDescription(${gift.id}, this.textContent)">${gift.description}</td>
                     <td class="${gift.reserved ? 'reserved' : ''}">${gift.reserved ? 'Reservado' : 'Disponible'}</td>
+                    <td><button onclick="toggleReservation(${gift.id})">${gift.reserved ? 'Cancelar Reserva' : 'Reservar'}</button></td>
                 `;
                 giftTable.appendChild(row);
             });
@@ -181,6 +183,11 @@
             });
         }
 
+        function editGiftDescription(id, newValue) {
+            const gift = gifts.find(g => g.id === id);
+            if (gift) gift.description = newValue;
+        }
+
         function editGift(id, newValue) {
             const gift = gifts.find(g => g.id === id);
             if (gift) gift.description = newValue;
@@ -195,6 +202,14 @@
             const newId = gifts.length + 1;
             gifts.push({ id: newId, description: "Nuevo regalo", reserved: false });
             loadAdminPanel();
+        }
+
+        function toggleReservation(id) {
+            const gift = gifts.find(g => g.id === id);
+            if (gift) {
+                gift.reserved = !gift.reserved;
+                loadGifts();
+            }
         }
 
         document.getElementById("user-form").addEventListener("submit", function(event) {
