@@ -1,61 +1,169 @@
-// Editar un regalo
-function editGift(giftId) {
-    const row = document.querySelector(`tr[data-id="${giftId}"]`);
-    if (!row) return;
-
-    const name = row.cells[0].textContent;
-    const description = row.cells[1].textContent;
-    const price = row.cells[2].textContent;
-
-    const gift = giftData.find(g => g.id === giftId);
-    if (gift) {
-        gift.name = name;
-        gift.description = description;
-        gift.price = price;
-    }
-
-    renderGiftList();
-    updateGiftsTable();
-}
-
-// Eliminar un regalo
-function deleteGift(giftId) {
-    if (!confirm("¿Estás seguro de eliminar este regalo?")) return;
-    
-    const index = giftData.findIndex(g => g.id === giftId);
-    if (index !== -1) {
-        giftData.splice(index, 1);
-    }
-
-    renderGiftList();
-    updateGiftsTable();
-}
-
-// Añadir un nuevo regalo evitando IDs duplicados
-const newGiftForm = document.getElementById('new-gift-form');
-newGiftForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-
-    const newGiftName = document.getElementById('new-gift-name').value.trim();
-    const newGiftDescription = document.getElementById('new-gift-description').value.trim();
-    const newGiftPrice = document.getElementById('new-gift-price').value.trim();
-
-    if (!newGiftName || !newGiftDescription || !newGiftPrice) {
-        alert("Por favor, completa todos los campos.");
-        return;
-    }
-
-    const newId = giftData.length > 0 ? Math.max(...giftData.map(g => g.id)) + 1 : 1;
-
-    const newGift = {
-        id: newId,
-        name: newGiftName,
-        description: newGiftDescription,
-        price: newGiftPrice,
-        reserved: false,
-        reservedBy: ""
-    };
-
-    giftData.push(newGift);
-    renderGiftList();
-    updateG
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Regalos Baby Shower</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f6ff;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #9b7fd4;
+        }
+        .login-form, .gift-list, .admin-panel {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .gift-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f0f7;
+            color: #9b7fd4;
+        }
+        button {
+            background-color: #9b7fd4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #8a6bc1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Lista de Regalos Baby Shower</h1>
+        </header>
+        <div class="login-form" id="login-section">
+            <h2>Acceso para Invitados</h2>
+            <input type="text" id="full-name-input" placeholder="Tu Nombre Completo" required>
+            <input type="email" id="email-input" placeholder="tucorreo@ejemplo.com" required>
+            <button id="login-button">Ingresar</button>
+            <p id="login-error" style="color:red;"></p>
+        </div>
+        <div class="gift-list" id="gift-list-section" style="display:none;">
+            <h2>Elige un regalo</h2>
+            <div class="gift-grid" id="gift-grid"></div>
+        </div>
+        <div class="admin-panel" id="admin-panel" style="display:none;">
+            <h2>Administración de Regalos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="gifts-table-body"></tbody>
+            </table>
+            <button onclick="adminLogout()">Cerrar Admin</button>
+        </div>
+    </div>
+    <script>
+        let giftData = [
+            { id: 1, name: "Cojin de lactancia", description: "Cojin de lactancia", price: "$20", reserved: false, reservedBy: "" },
+            { id: 2, name: "Esterilizador", description: "Esterilizador", price: "$30", reserved: false, reservedBy: "" }
+        ];
+        function renderGiftList() {
+            const giftGrid = document.getElementById("gift-grid");
+            giftGrid.innerHTML = "";
+            giftData.forEach(gift => {
+                const giftCard = document.createElement("div");
+                giftCard.innerHTML = `
+                    <strong>${gift.name}</strong>
+                    <p>${gift.description}</p>
+                    <p>${gift.price}</p>
+                    <button onclick="selectGift(${gift.id})" ${gift.reserved ? 'disabled' : ''}>${gift.reserved ? 'Reservado' : 'Seleccionar'}</button>
+                `;
+                giftGrid.appendChild(giftCard);
+            });
+        }
+        function selectGift(giftId) {
+            const gift = giftData.find(g => g.id === giftId);
+            if (gift) {
+                gift.reserved = true;
+                gift.reservedBy = document.getElementById("full-name-input").value;
+                renderGiftList();
+            }
+        }
+        document.getElementById("login-button").addEventListener("click", () => {
+            document.getElementById("login-section").style.display = "none";
+            document.getElementById("gift-list-section").style.display = "block";
+            renderGiftList();
+        });
+        function adminLogin() {
+            const password = prompt("Ingrese contraseña:");
+            if (password === "admin123") {
+                document.getElementById("admin-panel").style.display = "block";
+                renderAdminTable();
+            } else {
+                alert("Contraseña incorrecta");
+            }
+        }
+        function renderAdminTable() {
+            const tableBody = document.getElementById("gifts-table-body");
+            tableBody.innerHTML = "";
+            giftData.forEach(gift => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td contenteditable="true">${gift.name}</td>
+                    <td contenteditable="true">${gift.description}</td>
+                    <td contenteditable="true">${gift.price}</td>
+                    <td>${gift.reserved ? 'Reservado' : 'Disponible'}</td>
+                    <td><button onclick="deleteGift(${gift.id})">Eliminar</button></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        function deleteGift(giftId) {
+            if (confirm("¿Eliminar este regalo?")) {
+                giftData = giftData.filter(g => g.id !== giftId);
+                renderAdminTable();
+            }
+        }
+        function adminLogout() {
+            document.getElementById("admin-panel").style.display = "none";
+        }
+    </script>
+</body>
+</html>
