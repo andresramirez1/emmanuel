@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Regalos Baby Shower</title>
     <style>
-                body {
+        /* Estilos que ya tenías */
+        body {
             font-family: 'Arial', sans-serif;
             background-color: #f8f6ff;
             color: #333;
@@ -35,45 +36,7 @@
             margin-bottom: 30px;
             text-align: center;
         }
-        .login-form {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        input[type="email"] {
-            padding: 10px;
-            width: 300px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        
-        input[type="text"] {
-            padding: 10px;
-            width: 300px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        button {
-            background-color: #9b7fd4;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-left: 10px;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #8a6bc1;
-        }
         .gift-list {
-            display: none;
             background-color: white;
             padding: 30px;
             border-radius: 10px;
@@ -89,12 +52,7 @@
             border: 1px solid #eee;
             border-radius: 8px;
             padding: 15px;
-            transition: transform 0.3s, box-shadow 0.3s;
             background-color: #fafafa;
-        }
-        .gift-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         .gift-name {
             font-weight: bold;
@@ -111,116 +69,9 @@
             color: #555;
             margin-bottom: 15px;
         }
-        .thank-you {
-            display: none;
-            text-align: center;
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .thank-you h2 {
-            color: #9b7fd4;
-        }
-        .thank-you p {
-            margin-bottom: 20px;
-        }
-        .reserved {
-            background-color: #f0f0f0;
-            opacity: 0.6;
-        }
-        .reserved button {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-        .reserved button:hover {
-            background-color: #ccc;
-        }
-        .user-info {
-            text-align: right;
-            margin-bottom: 15px;
-        }
-        .error-message {
-            color: #e74c3c;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-        #file-upload-container {
-            text-align: center;
-            margin-top: 20px;
-            display: none;
-        }
-        .admin-section {
-            margin-top: 30px;
-            text-align: center;
-        }
-        .admin-link {
-            color: #9b7fd4;
-            text-decoration: none;
-            font-size: 0.8em;
-        }
-        .admin-panel {
-            display: none;
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f2f0f7;
-            color: #9b7fd4;
-        }
-        .gift-status {
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.8em;
-        }
-        .status-available {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .status-reserved {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-    
     </style>
 </head>
 <body>
-    <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyA1SsEgO_SwF704ZTLTiAaiQoi-tboMHIw",
-    authDomain: "emmanuel-b0774.firebaseapp.com",
-    projectId: "emmanuel-b0774",
-    storageBucket: "emmanuel-b0774.firebasestorage.app",
-    messagingSenderId: "277472142298",
-    appId: "1:277472142298:web:ab356ea420c2217b1696e3",
-    measurementId: "G-BXDWSZ9TJJ"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
     <div class="container">
         <header>
             <img src="/api/placeholder/150/150" alt="Osito de Peluche" class="teddy-bear">
@@ -228,81 +79,34 @@
             <p class="welcome-message">¡Estamos esperando a nuestro bebé con mucha alegría! <br>Gracias por ser parte de este momento tan especial.</p>
         </header>
 
-        <div id="login-section" class="login-form">
-            <h2>Acceso para Invitados</h2>
-            <p>Ingresa tu nombre completo:</p>
-            <input type="text" id="full-name-input" placeholder="Tu Nombre Completo" required>
-            <p>Ingresa tu correo electrónico para ver la lista de regalos:</p>
-            <input type="email" id="email-input" placeholder="tucorreo@ejemplo.com" required>
-            <button id="login-button">Ingresar</button>
-            <p id="login-error" class="error-message"></p>
-        </div>
-
         <div id="gift-list-section" class="gift-list">
-            <div class="user-info">
-                <p>Bienvenido, <span id="user-email"></span> | <a href="#" id="logout-link">Cerrar sesión</a></p>
-            </div>
             <h2>Elige un regalo para el bebé</h2>
             <p>Selecciona el regalo que deseas obsequiar:</p>
             <div id="gift-grid" class="gift-grid">
                 <!-- Los regalos se cargarán dinámicamente aquí -->
             </div>
         </div>
-
-        <div id="thank-you-section" class="thank-you">
-            <img src="/api/placeholder/150/150" alt="Osito de Peluche" class="teddy-bear">
-            <h2>¡Muchas gracias!</h2>
-            <p>Has seleccionado: <span id="selected-gift"></span></p>
-            <p>Tu generosidad significa mucho para nosotros. Te mantendremos informado sobre la fecha y lugar del Baby Shower mediante el correo <span id="confirmation-email"></span>.</p>
-            <button id="back-to-gifts">Ver más regalos</button>
-            <button id="thank-you-logout">Cerrar sesión</button>
-        </div>
-
-        <div class="admin-section">
-            <a href="#" class="admin-link" id="admin-link">Acceso para administradores</a>
-        </div>
-
-        <div id="admin-panel" class="admin-panel">
-            <h2>Panel de Administración</h2>
-            <p>Carga la lista de regalos desde Excel o visualiza los regalos seleccionados:</p>
-            
-            <div id="file-upload-container">
-                <input type="file" id="excel-file" accept=".xlsx, .xls">
-                <button id="upload-button">Cargar Lista de Regalos</button>
-            </div>
-            
-            <h3>Añadir Nuevo Regalo</h3>
-            <form id="new-gift-form">
-                <input type="text" id="new-gift-name" placeholder="Nombre del Regalo" required>
-                <input type="text" id="new-gift-description" placeholder="Descripción" required>
-                <input type="text" id="new-gift-price" placeholder="Precio" required>
-                <button type="submit">Añadir</button>
-            </form>
-            
-            <h3>Registro de Regalos</h3>
-            <table id="gifts-table">
-                <thead>
-                    <tr>
-                        <th>Regalo</th>
-                        <th>Descripción</th>
-                        <th>Precio</th>
-                        <th>Estado</th>
-                        <th>Reservado por</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="gifts-table-body">
-                    <!-- Datos de la tabla cargados dinámicamente -->
-                </tbody>
-            </table>
-        </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script>
-        // Datos de muestra (simulando carga desde Excel)
-        const giftData = JSON.parse(localStorage.getItem('giftData')) || [
-          { id: 1, name: "kit de aseo", description: "kit de aseo (cepillo de pelo, cortauñas etc)", price: "", reserved: false, reservedBy: "" },
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyA1SsEgO_SwF704ZTLTiAaiQoi-tboMHIw",
+          authDomain: "emmanuel-b0774.firebaseapp.com",
+          projectId: "emmanuel-b0774",
+          storageBucket: "emmanuel-b0774.firebasestorage.app",
+          messagingSenderId: "277472142298",
+          appId: "1:277472142298:web:ab356ea420c2217b1696e3",
+          measurementId: "G-BXDWSZ9TJJ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app); // Inicializa la base de datos
+
+        const giftData = [
+    { id: 1, name: "kit de aseo", description: "kit de aseo (cepillo de pelo, cortauñas etc)", price: "", reserved: false, reservedBy: "" },
     { id: 2, name: "Cojin de lactancia", description: "Cojin de lactancia", price: "", reserved: false, reservedBy: "" },
     { id: 3, name: "Baberos + Pañales Etapa 1", description: "Baberos + Pañales Etapa 1", price: "", reserved: false, reservedBy: "" },
     { id: 4, name: "Esterilizador", description: "Esterilizador", price: "", reserved: false, reservedBy: "" },
@@ -334,295 +138,85 @@
     { id: 30, name: "Coche", description: "Coche para Bebé", price: "", reserved: false, reservedBy: "" }
         ];
 
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
-
-        const loginSection = document.getElementById('login-section');
-        const giftListSection = document.getElementById('gift-list-section');
-        const thankYouSection = document.getElementById('thank-you-section');
-        const adminPanel = document.getElementById('admin-panel');
-        const emailInput = document.getElementById('email-input');
-        const loginButton = document.getElementById('login-button');
-        const userEmailSpan = document.getElementById('user-email');
-        const logoutLink = document.getElementById('logout-link');
-        const giftGrid = document.getElementById('gift-grid');
-        const selectedGiftSpan = document.getElementById('selected-gift');
-        const confirmationEmailSpan = document.getElementById('confirmation-email');
-        const backToGiftsButton = document.getElementById('back-to-gifts');
-        const thankYouLogoutButton = document.getElementById('thank-you-logout');
-        const loginError = document.getElementById('login-error');
-        const adminLink = document.getElementById('admin-link');
-        const fileUploadContainer = document.getElementById('file-upload-container');
-        const excelFileInput = document.getElementById('excel-file');
-        const uploadButton = document.getElementById('upload-button');
-        const giftsTableBody = document.getElementById('gifts-table-body');
-
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-
-        loginButton.addEventListener('click', () => {
-            const fullName = document.getElementById('full-name-input').value.trim();
-            const email = emailInput.value.trim();
-            
-            if (!fullName) {
-                loginError.textContent = "Por favor, introduce tu nombre completo.";
-                return;
-            }
-
-            if (!validateEmail(email)) {
-                loginError.textContent = "Por favor, introduce un correo electrónico válido.";
-                return;
-            }
-
-            loginError.textContent = "";
-            currentUser = { fullName, email };
-
-            localStorage.setItem('fullName', fullName);
-            localStorage.setItem('email', email);
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            
-            if (!users.some(user => user.email === email)) {
-                users.push(currentUser);
-                localStorage.setItem('users', JSON.stringify(users));
-            }
-
-            userEmailSpan.textContent = email;
-            confirmationEmailSpan.textContent = email;
-
-            loginSection.style.display = 'none';
-            giftListSection.style.display = 'block';
-
-            renderGiftList();
-        });
-
-        function renderGiftList() {
-            giftGrid.innerHTML = '';
-            
-            giftData.forEach(gift => {
-                const giftCard = document.createElement('div');
-                giftCard.className = 'gift-card';
-                if (gift.reserved) {
-                    giftCard.classList.add('reserved');
-                }
-                
-                giftCard.innerHTML = `
-                    <div class="gift-name">${gift.name}</div>
-                    <div class="gift-description">${gift.description}</div>
-                    <div class="gift-price">${gift.price}</div>
-                    <button class="select-gift" data-id="${gift.id}" ${gift.reserved ? 'disabled' : ''}>
-                        ${gift.reserved ? 'Reservado' : 'Seleccionar'}
-                    </button>
-                `;
-                
-                giftGrid.appendChild(giftCard);
-                
-                if (!gift.reserved) {
-                    const selectButton = giftCard.querySelector('.select-gift');
-                    selectButton.addEventListener('click', () => selectGift(gift.id));
-                }
-            });
-        }
-
+        // Función para guardar los datos en Firebase
         function saveGiftData(giftData) {
-  const giftsRef = database.ref('gifts');
-  giftsRef.set(giftData);  // Guardamos la lista de regalos en Firebase
-}
-
-
-      function selectGift(giftId) {
-    const gift = giftData.find(g => g.id === giftId);
-    
-    if (gift && !gift.reserved) {
-        gift.reserved = true;
-        const reservedBy = localStorage.getItem('fullName');
-        gift.reservedBy = reservedBy;
-
-        selectedGiftSpan.textContent = gift.name;
-
-        giftListSection.style.display = 'none';
-        thankYouSection.style.display = 'block';
-
-        saveGiftData(giftData);  // Guardamos la lista actualizada en Firebase
-    }
-}
-// Esta función carga los datos de Firebase y los pasa a renderGiftList
-function loadGiftData() {
-  const giftsRef = ref(database, 'gifts');
-  get(giftsRef).then((snapshot) => {
-    if (snapshot.exists()) {
-      const data = snapshot.val();  // Obtén los datos de la base de datos
-      renderGiftList(data);  // Llama a renderGiftList para mostrar los regalos
-    } else {
-      console.log("No hay datos disponibles en Firebase.");
-    }
-  }).catch((error) => {
-    console.error("Error al cargar los datos de Firebase:", error);
-  });
-}
-
-
-function renderGiftList(giftData) {
-    giftGrid.innerHTML = '';  // Limpiamos la lista de regalos antes de mostrar la nueva
-
-    giftData.forEach(gift => {
-        const giftCard = document.createElement('div');
-        giftCard.className = 'gift-card';
-        if (gift.reserved) {
-            giftCard.classList.add('reserved');
-        }
-
-        giftCard.innerHTML = `
-            <div class="gift-name">${gift.name}</div>
-            <div class="gift-description">${gift.description}</div>
-            <div class="gift-price">${gift.price}</div>
-            <button class="select-gift" data-id="${gift.id}" ${gift.reserved ? 'disabled' : ''}>
-                ${gift.reserved ? 'Reservado' : 'Seleccionar'}
-            </button>
-        `;
-        
-        giftGrid.appendChild(giftCard);
-
-        if (!gift.reserved) {
-            const selectButton = giftCard.querySelector('.select-gift');
-            selectButton.addEventListener('click', () => selectGift(gift.id));
-        }
-    });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    loadGiftData();  // Cargar los datos de Firebase cuando la página se carga
-});
-
-        
-        backToGiftsButton.addEventListener('click', () => {
-            thankYouSection.style.display = 'none';
-            giftListSection.style.display = 'block';
-            renderGiftList();
-        });
-
-        logoutLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            logout();
-        });
-
-        thankYouLogoutButton.addEventListener('click', () => {
-            logout();
-        });
-
-        function logout() {
-            currentUser = null;
-            emailInput.value = '';
-            localStorage.removeItem('currentUser');
-            loginSection.style.display = 'block';
-            giftListSection.style.display = 'none';
-            thankYouSection.style.display = 'none';
-            adminPanel.style.display = 'none';
-        }
-
-        adminLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            const isAdmin = prompt("Ingrese la contraseña de administrador:");
-            
-            if (isAdmin === "admin123") {
-                loginSection.style.display = 'none';
-                giftListSection.style.display = 'none';
-                thankYouSection.style.display = 'none';
-                adminPanel.style.display = 'block';
-                fileUploadContainer.style.display = 'block';
-                
-                updateGiftsTable();
-            } else {
-                alert("Contraseña incorrecta.");
-            }
-        });
-
-        function updateGiftsTable() {
-            giftsTableBody.innerHTML = '';
-        
-            giftData.forEach(gift => {
-                const row = document.createElement('tr');
-        
-                row.innerHTML = `
-                    <td contenteditable="true">${gift.name}</td>
-                    <td contenteditable="true">${gift.description}</td>
-                    <td contenteditable="true">${gift.price}</td>
-                    <td><span class="gift-status ${gift.reserved ? 'status-reserved' : 'status-available'}">${gift.reserved ? 'Reservado' : 'Disponible'}</span></td>
-                    <td>${gift.reservedBy || '-'}</td>
-                    <td>
-                        <button onclick="editGift(${gift.id})">Guardar</button>
-                        <button onclick="deleteGift(${gift.id})">Eliminar</button>
-                    </td>
-                `;
-        
-                giftsTableBody.appendChild(row);
+          const giftsRef = ref(database, 'gifts');
+          set(giftsRef, giftData)
+            .then(() => {
+              console.log("Datos guardados exitosamente en Firebase");
+            })
+            .catch((error) => {
+              console.error("Error al guardar los datos en Firebase:", error);
             });
         }
 
-        function editGift(giftId) {
-            const row = document.querySelector(`tr[data-id="${giftId}"]`);
-            const name = row.cells[0].textContent;
-            const description = row.cells[1].textContent;
-            const price = row.cells[2].textContent;
-        
-            const gift = giftData.find(g => g.id === giftId);
-            if (gift) {
-                gift.name = name;
-                gift.description = description;
-                gift.price = price;
-                localStorage.setItem('giftData', JSON.stringify(giftData));
+        // Función para cargar los datos desde Firebase
+        function loadGiftData() {
+          const giftsRef = ref(database, 'gifts');
+          get(giftsRef).then((snapshot) => {
+            if (snapshot.exists()) {
+              const data = snapshot.val();
+              renderGiftList(data);  // Llamamos a la función para renderizar la lista con los datos cargados
+            } else {
+              console.log("No hay datos disponibles en Firebase.");
             }
+          }).catch((error) => {
+            console.error("Error al cargar los datos de Firebase:", error);
+          });
         }
 
-        function deleteGift(giftId) {
-            giftData = giftData.filter(g => g.id !== giftId);
-            updateGiftsTable();
-            localStorage.setItem('giftData', JSON.stringify(giftData));
+        // Esta función es la que se llama para renderizar los regalos
+        function renderGiftList(giftData) {
+          const giftGrid = document.getElementById('gift-grid');
+          giftGrid.innerHTML = ''; // Limpiar la lista de regalos antes de mostrar los nuevos
+
+          giftData.forEach(gift => {
+            const giftCard = document.createElement('div');
+            giftCard.className = 'gift-card';
+            if (gift.reserved) {
+              giftCard.classList.add('reserved');
+            }
+
+            giftCard.innerHTML = `
+              <div class="gift-name">${gift.name}</div>
+              <div class="gift-description">${gift.description}</div>
+              <div class="gift-price">${gift.price}</div>
+              <button class="select-gift" data-id="${gift.id}" ${gift.reserved ? 'disabled' : ''}>
+                ${gift.reserved ? 'Reservado' : 'Seleccionar'}
+              </button>
+            `;
+            giftGrid.appendChild(giftCard);
+
+            // Habilitar el botón solo si no está reservado
+            if (!gift.reserved) {
+              const selectButton = giftCard.querySelector('.select-gift');
+              selectButton.addEventListener('click', () => selectGift(gift.id)); // Llama a la función selectGift
+            }
+          });
         }
 
-        uploadButton.addEventListener('click', () => {
-            const file = excelFileInput.files[0];
-            
-            if (file) {
-                alert("La función de carga de Excel requiere implementación adicional con una librería como SheetJS (xlsx). En una aplicación real, este botón cargaría y procesaría tu archivo Excel.");
-            } else {
-                alert("Por favor, selecciona un archivo Excel.");
-            }
+        // Función que se ejecuta cuando el usuario selecciona un regalo
+        function selectGift(giftId) {
+          const gift = giftData.find(g => g.id === giftId);
+
+          if (gift && !gift.reserved) {
+            gift.reserved = true;
+            const reservedBy = "Invitado";  // Aquí puedes obtener el nombre del usuario que lo seleccionó
+            gift.reservedBy = reservedBy;
+
+            alert(`Has seleccionado: ${gift.name}`);
+
+            saveGiftData(giftData);  // Guardamos la lista actualizada en Firebase
+          }
+        }
+
+        // Cargar los datos desde Firebase al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+          loadGiftData();  // Llamar a la función que carga los datos
         });
 
-        const newGiftForm = document.getElementById('new-gift-form');
-        newGiftForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            
-            const newGiftName = document.getElementById('new-gift-name').value.trim();
-            const newGiftDescription = document.getElementById('new-gift-description').value.trim();
-            const newGiftPrice = document.getElementById('new-gift-price').value.trim();
-            
-            if (newGiftName && newGiftDescription && newGiftPrice) {
-                const newGift = {
-                    id: giftData.length + 1,
-                    name: newGiftName,
-                    description: newGiftDescription,
-                    price: newGiftPrice,
-                    reserved: false,
-                    reservedBy: ""
-                };
-                
-                giftData.push(newGift);
-                renderGiftList();
-                updateGiftsTable();
-                localStorage.setItem('giftData', JSON.stringify(giftData));
-                
-                newGiftForm.reset();
-            } else {
-                alert("Por favor, completa todos los campos.");
-            }
-        });
-
-        renderGiftList();
-        updateGiftsTable();
+        // Guardamos los datos de ejemplo en Firebase
+        saveGiftData(giftData);
     </script>
 </body>
 </html>
