@@ -539,7 +539,7 @@ function selectGift(giftId) {
     if (giftIndex !== -1 && !giftData[giftIndex].reserved) {
         // Update the specific gift's reservation status
         giftData[giftIndex].reserved = true;
-        giftData[giftIndex].reservedBy = currentUser;
+        giftData[giftIndex].reservedBy = currentName;
         
         // Save updated gift data to Firebase
         saveGiftData(giftData);
