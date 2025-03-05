@@ -554,27 +554,6 @@ function selectGift(giftId) {
     }
 }
 
-function renderAdminTable(giftData) {
-    const tableBody = document.getElementById('gifts-table-body');
-    tableBody.innerHTML = '';
-    
-    giftData.forEach(gift => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${gift.name}</td>
-            <td>${gift.description}</td>
-            <td>${gift.price}</td>
-            <td>
-                <span class="gift-status ${gift.reserved ? 'status-reserved' : 'status-available'}">
-                    ${gift.reserved ? 'Reservado' : 'Disponible'}
-                </span>
-            </td>
-            <td>${gift.reservedBy || 'N/A'}</td>
-            <td>
-                <button class="reset-gift" data-id="${gift.id}">Resetear</button>
-            </td>
-        `;
-        tableBody.appendChild(row);
 
         // Add reset functionality
         const resetButton = row.querySelector('.reset-gift');
