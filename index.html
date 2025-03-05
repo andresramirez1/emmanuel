@@ -168,9 +168,37 @@
         </div>
 
         <!-- Admin Section Link -->
-        <div class="admin-section">
-            <a href="#" class="admin-link" id="admin-link">Acceso para administradores</a>
-        </div>
+        <!-- Admin Section Link -->
+<div class="admin-section">
+    <a href="#" class="admin-link" id="admin-link">Acceso para administradores</a>
+</div>
+
+<!-- Admin Panel -->
+<div id="admin-panel" class="admin-panel" style="display: none;">
+    <h2>Panel de Administración</h2>
+    <p>Carga la lista de regalos o visualiza los regalos seleccionados:</p>
+    <h3>Añadir Nuevo Regalo</h3>
+    <form id="new-gift-form">
+        <input type="text" id="new-gift-name" placeholder="Nombre del Regalo" required>
+        <input type="text" id="new-gift-description" placeholder="Descripción" required>
+        <input type="text" id="new-gift-price" placeholder="Precio" required>
+        <button type="submit">Añadir</button>
+    </form>
+    <h3>Registro de Regalos</h3>
+    <table id="gifts-table">
+        <thead>
+            <tr>
+                <th>Regalo</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th>Reservado por</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="gifts-table-body"></tbody>
+    </table>
+</div>
 
         <!-- Admin Panel -->
         <div id="admin-panel" class="admin-panel" style="display: none;">
