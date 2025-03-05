@@ -488,6 +488,50 @@ document.getElementById('login-button').addEventListener('click', () => {
     loadGiftData(); // Use loadGiftData instead of renderGiftList directly
 });
 
+// Add these event listeners to fix logout and gift selection buttons
+
+// Logout link in gift list section
+document.getElementById('logout-link').addEventListener('click', (e) => {
+    e.preventDefault();
+    // Clear local storage
+    localStorage.removeItem('fullName');
+    localStorage.removeItem('email');
+    
+    // Hide gift list section
+    document.getElementById('gift-list-section').style.display = 'none';
+    
+    // Show login section
+    document.getElementById('login-section').style.display = 'block';
+    
+    // Reset any selected gifts
+    document.getElementById('selected-gift').textContent = '';
+});
+
+// Logout button in thank you section
+document.getElementById('thank-you-logout').addEventListener('click', () => {
+    // Clear local storage
+    localStorage.removeItem('fullName');
+    localStorage.removeItem('email');
+    
+    // Hide thank you section
+    document.getElementById('thank-you-section').style.display = 'none';
+    
+    // Show login section
+    document.getElementById('login-section').style.display = 'block';
+});
+
+// Back to gifts button in thank you section
+document.getElementById('back-to-gifts').addEventListener('click', () => {
+    // Hide thank you section
+    document.getElementById('thank-you-section').style.display = 'none';
+    
+    // Show gift list section
+    document.getElementById('gift-list-section').style.display = 'block';
+    
+    // Reload gift list to ensure latest data
+    loadGiftData();
+});
+
 // Initialize app
 document.addEventListener('DOMContentLoaded', () => {
     loadGiftData();
