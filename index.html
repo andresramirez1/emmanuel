@@ -598,6 +598,48 @@ function resetGift(giftId) {
     }
 }
 
+// Add this function to your existing script
+function exitAdminPanel() {
+    // Hide admin panel
+    document.getElementById('admin-panel').style.display = 'none';
+    
+    // Check if user is logged in
+    const email = localStorage.getItem('email');
+    
+    if (email) {
+        // If logged in, show gift list section
+        document.getElementById('user-email').textContent = email;
+        document.getElementById('gift-list-section').style.display = 'block';
+        
+        // Reload gift list to ensure latest data
+        loadGiftData();
+    } else {
+        // If no user logged in, show login section
+        document.getElementById('login-section').style.display = 'block';
+    }
+}
+
+// Add an event listener for the exit button in the admin panel
+document.addEventListener('DOMContentLoaded', () => {
+    // Create exit button in admin panel
+    const adminPanel = document.getElementById('admin-panel');
+    const exitButton = document.createElement('button');
+    exitButton.textContent = 'Salir del Panel de Administración';
+    exitButton.className = 'exit-admin-panel';
+    exitButton.style.marginTop = '20px';
+    exitButton.style.backgroundColor = '#9b7fd4';
+    exitButton.style.color = 'white';
+    exitButton.style.padding = '10px 20px';
+    exitButton.style.borderRadius = '5px';
+    exitButton.style.border = 'none';
+    exitButton.style.cursor = 'pointer';
+
+    exitButton.addEventListener('click', exitAdminPanel);
+    
+    // Append the exit button to the admin panel
+    adminPanel.appendChild(exitButton);
+});
+        
 document.getElementById('admin-link').addEventListener('click', (e) => {
     e.preventDefault();
     const password = prompt("Ingrese la contraseña de administrador:");
