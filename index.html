@@ -554,6 +554,27 @@ function selectGift(giftId) {
     }
 }
 
+function renderAdminTable(giftData) {
+    const tableBody = document.getElementById('gifts-table-body');
+    tableBody.innerHTML = '';
+    
+    giftData.forEach(gift => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${gift.name}</td>
+            <td>${gift.description}</td>
+            <td>${gift.price}</td>
+            <td>
+                <span class="gift-status ${gift.reserved ? 'status-reserved' : 'status-available'}">
+                    ${gift.reserved ? 'Reservado' : 'Disponible'}
+                </span>
+            </td>
+            <td>${gift.reservedBy || 'N/A'}</td>
+            <td>
+                <button class="reset-gift" data-id="${gift.id}">Resetear</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
 
         // Add reset functionality
         const resetButton = row.querySelector('.reset-gift');
@@ -577,6 +598,20 @@ function resetGift(giftId) {
     }
 }
 
+document.getElementById('admin-link').addEventListener('click', (e) => {
+    e.preventDefault();
+    const password = prompt("Ingrese la contraseña de administrador:");
+    if (password === 'Qazxsw21*') {
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('gift-list-section').style.display = 'none';
+        document.getElementById('thank-you-section').style.display = 'none';
+        document.getElementById('admin-panel').style.display = 'block';
+        loadGiftData();
+    } else {
+        alert("Contraseña incorrecta. Por favor, contacta al organizador.");
+    }
+});
+        
 // Existing event listeners remain the same...
 document.getElementById('login-button').addEventListener('click', () => {
     const fullName = document.getElementById('full-name-input').value.trim();
